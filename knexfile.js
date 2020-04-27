@@ -1,47 +1,37 @@
-// Update with your config settings.
-
 module.exports = {
-
   development: {
-    client: 'sqlite3',
-    useNullAsDefault: true,
-    connection: {
-      filename: './database/auth.db3',
-    },
+    client: 'pg',
+    connection: 'postgres://localhost/<examples>',
     migrations: {
-      directory: './database/migrations',
+      directory: './database/migrations'
     },
     seeds: {
-      directory: './database/seeds',
+      directory: './database/seeds'
     },
+    useNullAsDefault: true
   },
 
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/<examples_test>',
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      directory: './database/migrations'
+    },
+    seeds: {
+      directory: './database/seeds'
+    },
+    useNullAsDefault: true
   },
 
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: process.env.DATABASE_URL,
-    pool: {
-      min: 2,
-      max: 10
-    },
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      directory: './database/migrations'
+    },
+    seeds: {
+      directory: './database/seeds'
+    },
+    useNullAsDefault: true
   }
-
-};
+}
