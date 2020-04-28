@@ -41,6 +41,10 @@ router.post("/login", (req, res) => {
         })
 });
 
+router.get("/landing", (req, res) => {
+    return (res.status(200).json(display))
+});
+
 function generateToken(user) {
     // the data
     const payload = {
@@ -54,5 +58,23 @@ function generateToken(user) {
 
     return jwt.sign(payload, secret, options);
 }
+
+const display = [
+    {
+        strain_name: "OG Kush",
+        strain_type: "Hybrid",
+        description: "OG Kush is a balanced hybrid strain that has a slight favor to the sativa characteristics. It comes from the parent cannabis strain Hindu Kush. Since its cultivation in the early 90's, OG Kush has since become a worldwide staple in the cannabis community."
+    },
+    {
+        strain_name: "Blue Hawaiian",
+        strain_type: "Sativa",
+        description: "Known for its light green buds covered in rich orange and red hairs, Blue Hawaiian was bred from Blueberry and Hawaiian Sativa. Blue Hawaiian has a delicious aroma that is full of berry, sweet, and earthy scents."
+    },
+    {
+        strain_name: "Brand X",
+        strain_type: "Indica",
+        description: "Brand X is a timeless strain traced back to Michigan some 5+ decades ago. Also known as The Ostipow Indica, this strain presents an earthy, piney aroma and is known for inducing a heavy full-body relaxation."
+    }
+]
 
 module.exports = router;
