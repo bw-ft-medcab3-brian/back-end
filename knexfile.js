@@ -1,4 +1,5 @@
 // Update with your config settings.
+const env = require('dotenv');
 
 module.exports = {
 
@@ -40,9 +41,12 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user:     'email',
-      password: 'password'
+      host: process.env.HOST,
+      database: process.env.DATABASE,
+      user: process.env.USER,
+      port: process.env.PORT,
+      password: process.env.PASSWORD,
+      URI: process.env.URI
     },
     pool: {
       min: 2,
