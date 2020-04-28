@@ -1,6 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
+const fetch = require("node-fetch");
 
 const usersRouter = require("../users/user-router.js");
 const authRouter = require("../auth/auth-router.js");
@@ -18,5 +19,10 @@ server.use("/api/auth", authRouter);
 server.get("/", (req, res) => {
     res.json({ api: "up" });
 });
+server.get("/external", (req, res) => {
+    fetch("https://medcab-3.herokuapp.com/strains.json")
+        .then(res => console.log(res.text()))
+        .catch(error => error.json({ error: error }))
+})
 
 module.exports = server;
