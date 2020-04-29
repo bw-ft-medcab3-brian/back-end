@@ -8,8 +8,8 @@ module.exports = {
     addReview,
 };
 
-async function find() {
-    return await db("users")//.select("id", "email", "password");
+function find() {
+    return db("users").select("id", "email", "password");
 }
 
 function findBy(filter) {
