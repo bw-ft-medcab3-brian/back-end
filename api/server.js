@@ -19,10 +19,6 @@ server.use("/api/auth", authRouter);
 server.get("/", (req, res) => {
     res.json({ api: "up" });
 });
-server.get("/external", (req, res) => {
-    fetch("https://medcab-3.herokuapp.com/strains.json")
-        .then(res => console.log(res.text()))
-        .catch(error => error.json({ error: error }))
-})
+
 
 module.exports = server;
