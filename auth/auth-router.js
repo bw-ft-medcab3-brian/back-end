@@ -17,7 +17,7 @@ router.post("/register", (req, res) => {
             res.status(201).json({ ...reg, token });
         })
         .catch(error => {
-            console.log(error);
+            console.log(error, "whats goin on");
             res.status(500).json({ errorMessage: error.message, user: user });
         })
 });
