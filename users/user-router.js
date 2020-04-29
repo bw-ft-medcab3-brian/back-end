@@ -55,10 +55,10 @@ const dummy = [
 router.get("/", (req, res) => {
     Users.find()
         .then(users => {
+            console.log(users)
             res.json(users);
         })
-        console.log(Users)
-        .catch(err => res.send(err));
+        .catch(err => res.status(404).json({err}));
 });
 
 router.get("/strains", (req, res) => {
