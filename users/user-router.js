@@ -135,7 +135,7 @@ router.delete("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
     const reviewId = req.params.reviewid;
     console.log('id', id, 'reviewId', reviewId);
 
-    Users.findPaths(id)
+    Users.findReview(id)
         .then(review => {
             if (review.length) {
                 Users.deletePath(reviewId)
