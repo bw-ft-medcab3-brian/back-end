@@ -138,7 +138,7 @@ router.delete("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
     Users.findReview(id)
         .then(review => {
             if (review.length) {
-                Users.deletePath(reviewId)
+                Users.deleteReview(reviewId)
                     .then(count => {
                         res.status(200).json(count);
                     })
