@@ -58,6 +58,7 @@ router.get("/", (req, res) => {
         .then(users => {
             res.json(users);
         })
+        console.log(Users)
         .catch(err => res.send(err));
 });
 
