@@ -6,7 +6,8 @@ module.exports = {
     findBy,
     findById,
     addReview,
-    findReview
+    findReview,
+    updateReview
 };
 
 function find() {
@@ -34,6 +35,12 @@ function addReview(review) {
     return db("reviews")
     .join("users", "users.id", "reviews.user_id")
     .insert(review, "id");
+}
+
+function updateReview(changes, id) {
+    return db("reviews")
+    .where({ id })
+    .update(changes);
 }
 
 function findById(id) {

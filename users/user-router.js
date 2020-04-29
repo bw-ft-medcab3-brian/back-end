@@ -102,6 +102,34 @@ router.post("/:id/fav-reviews", validateUserId, (req, res) => {
     })
 });
 
+router.put("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
+    const id = req.params.id;
+    const reviewId = req.params.reviewid;
+    const changes = req.body;
+    console.log('id', id, 'reviewId', reviewId);
+
+    Users.findReview(id)
+    .then(review => {
+        if (review.length) {
+            Users.updateReview(changes, reviewId)
+            .then(updated => {
+                console.log('updated', updated)
+                res.status(200).json(updated.changes)
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(500).json({ error: "failed to update post" })
+            })
+        } else {
+            res.status(404).json({ message: "Could not find reviews for given user" })
+        }
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({ message: "failed to retrieve reviews" });
+    })
+})
+
 function validateUserId(req, res, next) {
     const { id } = req.params;
 
