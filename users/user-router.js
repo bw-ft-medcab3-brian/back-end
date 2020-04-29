@@ -52,7 +52,6 @@ const dummy = [
     }
 ];
 
-
 router.get("/", (req, res) => {
     Users.find()
         .then(users => {
@@ -64,6 +63,26 @@ router.get("/", (req, res) => {
 
 router.get("/strains", (req, res) => {
     return (res.status(200).json(dummy))
+});
+
+router.post("/:id/fav-reviews", (req, res) => {
+    const reviewData = req.body;
+    const { id } = req.params;
+    reviewData.user_id = id;
+    console.log(reviewData);
+    
+    Users.findById(id)
+    .then(user => {
+        Users.addReview(reviewData, id)
+        .then(review => {
+            console.log("review", review, user)
+            res.status(201).json(user.review)
+        })
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({ message: "Failed to create new review" });
+    })
 })
 
 module.exports = router;
