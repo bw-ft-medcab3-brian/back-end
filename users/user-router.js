@@ -64,8 +64,14 @@ router.get("/", (req, res) => {
 
 router.get("/all-strains", (req, res) => {
     fetch("https://medcab-3.herokuapp.com/strains.json")
-        .then(res => console.log(res.text()))
-        .catch(error => error.json({ error: error }))
+        .then(async response => {
+            // console.log(await response.json())
+            res.json(await response.json())
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({ error: error })
+        })
 })
 
 router.get("/strains", (req, res) => {
