@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const fetch = require("node-fetch");
 
 const Users = require("./user-model.js");
 const dummy = [
@@ -60,6 +61,12 @@ router.get("/", (req, res) => {
         })
         .catch(err => res.status(404).json({err}));
 });
+
+router.get("/all-strains", (req, res) => {
+    fetch("https://medcab-3.herokuapp.com/strains.json")
+        .then(res => console.log(res.text()))
+        .catch(error => error.json({ error: error }))
+})
 
 router.get("/strains", (req, res) => {
     return (res.status(200).json(dummy))
