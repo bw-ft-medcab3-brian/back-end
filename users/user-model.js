@@ -6,6 +6,7 @@ module.exports = {
     findBy,
     findById,
     addReview,
+    findReview
 };
 
 function find() {
@@ -20,6 +21,13 @@ async function add(user) {
     const [id] = await db("users").insert(user, "id");
 
     return findById(id);
+}
+
+function findReview(id) {
+    return db("reviews")
+    .join("users", "users.id", "reviews.user_id")
+    .select("reviews.*")
+    .where("user_id", id);
 }
 
 function addReview(review) {

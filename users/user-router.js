@@ -65,6 +65,19 @@ router.get("/strains", (req, res) => {
     return (res.status(200).json(dummy))
 });
 
+router.get("/:id/fav-reviews", validateUserId, (req, res) => {
+    const { id } = req.params;
+
+    Users.findReview(id)
+    .then(review => {
+        if (review.length) {
+            res.json(review)
+        } else {
+            res.status(404).json({ message: "can not find reviews for user" });
+        }
+    })    
+})
+
 router.post("/:id/fav-reviews", validateUserId, (req, res) => {
     const reviewData = req.body;
     const { id } = req.params;
@@ -87,7 +100,7 @@ router.post("/:id/fav-reviews", validateUserId, (req, res) => {
         console.log(error);
         res.status(500).json({ message: "Failed to create new review" });
     })
-})
+});
 
 function validateUserId(req, res, next) {
     const { id } = req.params;
