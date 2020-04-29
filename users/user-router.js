@@ -65,7 +65,7 @@ router.get("/strains", (req, res) => {
     return (res.status(200).json(dummy))
 });
 
-router.post("/:id/fav-reviews", (req, res) => {
+router.post("/:id/fav-reviews", validateUserId, (req, res) => {
     const reviewData = req.body;
     const { id } = req.params;
     reviewData.user_id = id;
@@ -78,11 +78,28 @@ router.post("/:id/fav-reviews", (req, res) => {
             console.log("review", review, user)
             res.status(201).json(user.review)
         })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({error})
+        })
     })
     .catch(error => {
         console.log(error);
         res.status(500).json({ message: "Failed to create new review" });
     })
 })
+
+function validateUserId(req, res, next) {
+    const { id } = req.params;
+
+    Users.findById(id)
+    .then(user => {
+        next()
+    })
+    .catch(error => {
+        console.log(error)
+        res.status(500).json({ error });
+    })
+}
 
 module.exports = router;
