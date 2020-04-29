@@ -10,16 +10,16 @@ router.post("/register", (req, res) => {
     const rounds = process.env.HASH_ROUNDS || 8;
     const hash = bcrypt.hashSync(user.password, rounds);
     user.password = hash;
-
-    Users.add(user)
-        .then(reg => {
-            const token = generateToken(user);
-            res.status(201).json({ ...reg, token });
-        })
-        .catch(error => {
-            console.log(error, "whats goin on");
-            res.status(500).json({ errorMessage: error.message, user: user });
-        })
+    
+        Users.add(user)
+            .then(reg => {
+                const token = generateToken(user);
+                res.status(201).json({ ...reg, token });
+            })
+            .catch(error => {
+                console.log(error, "whats goin on");
+                res.status(500).json({ errorMessage: error.message, user: user });
+            })
 });
 
 router.post("/login", (req, res) => {
