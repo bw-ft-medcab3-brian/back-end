@@ -94,27 +94,31 @@ router.get("/:id/fav-reviews", validateUserId, (req, res) => {
 router.get("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
     const id = req.params.id;
     const reviewId = req.params.reviewid;
+    console.log('id', id, 'reviewid', reviewId)
     Users.findReview(id)
-    .then(user => {
-        Users.findReviewById(reviewId)
-        .then(review => {
-            console.log("review", review, user)
-            res.status(201).json(review.review)
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({ error })
-        })
+    .then(review => {
+        if(review.length) {
+            Users.findReviewById(reviewId)
+            .then(rev => {
+                console.log(rev)
+                res.status(200).json(rev)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(404).json({ message: "review not found" })
+            })
+        }
     })
     .catch(error => {
         console.log(error);
-        res.status(404).json({ message: "review not found" })
+        res.status(500).json({ error })
     })
 })
 
 router.post("/:id/fav-reviews", validateUserId, (req, res) => {
     const reviewData = req.body;
     const { id } = req.params;
+    const reviewId = req.params.reviewid;
     reviewData.user_id = id;
     console.log(reviewData);
     
