@@ -10,7 +10,7 @@ router.post("/register", (req, res) => {
     const rounds = process.env.HASH_ROUNDS || 8;
     const hash = bcrypt.hashSync(user.password, rounds);
     user.password = hash;
-    
+
         Users.add(user)
             .then(reg => {
                 const token = generateToken(user);
@@ -30,7 +30,7 @@ router.post("/login", (req, res) => {
             console.log(user);
             if (user && bcrypt.compareSync(password, user.password)) {
                 const token = generateToken(user);
-                res.status(200).json({ message: "Welcome back!", token });
+                res.status(200).json({ message: "Welcome back!", token, user });
             } else {
                 res.status(401).json({ message: "Username or password incorrect" })
             }
