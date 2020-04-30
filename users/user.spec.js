@@ -4,9 +4,6 @@ const Users = require("../users/user-model.js");
 const request = require("supertest");
 const server = require("../api/server.js");
 
-// beforeAll(async () => {
-//     await db('reviews').truncate();
-// })
 
 describe('users router', () => {
     describe('test environment', function () {
@@ -40,18 +37,18 @@ describe('users router', () => {
     });
 
     describe('insert()', function () {
-        it('should add the created review', async () => {
-            await Users.addReview({
-                strain: "pineapple express",
-                stars: 3,
-                review: "not as good as the movie",
-                user_id: 1
-            });
+        // it('should add the created review', () => {
+        //     Users.addReview({
+        //         strain: "pineapple express",
+        //         stars: 3,
+        //         review: "not as good as the movie",
+        //         user_id: 1
+        //     });
 
-            const reviews = await db('reviews');
-            expect(reviews).toHaveLength(1);
+        //     const reviews = db('reviews');
+        //     expect(reviews).toBe(reviews + 1);
 
-        })
+        // })
         it('should require authorization', function () {
 
             return request(server)
@@ -62,33 +59,33 @@ describe('users router', () => {
     })
 
 
-    // describe('update()', function () {
-    //     const changes = {
-    //         strain: "bubba kush",
-    //         stars: 4,
-    //         review: "pretty, pretty, pretty good"
-    //     };
-    //     const reviewId = 1;
-    //     it('should update the users review', async () => {
-    //         console.log(changes, reviewId);
-    //         const res = await Users.updateReview(changes, reviewId)
-    //             .then(updated => {
-    //                 console.log('updated', updated);
-    //                 expect(200);
-    //             })
-    //     });
-    // });
+    describe('update()', function () {
+        const changes = {
+            strain: "bubba kush",
+            stars: 4,
+            review: "pretty, pretty, pretty good"
+        };
+        const reviewId = 4;
+        it('should update the users review', () => {
+            console.log(changes, reviewId);
+            Users.updateReview(changes, reviewId)
+                .then(updated => {
+                    console.log('updated', updated);
+                    expect(200);
+                })
+        });
+    });
 
-    // describe('delete()', function () {
-    //     const reviewId = 1;
+    describe('delete()', function () {
+        const reviewId = 4;
 
-    //     it('should delete the user\'s review', async () => {
-    //         await Users.deleteReview(reviewId)
-    //             .then(() => {
-    //                 expect(200);
-    //             })
-    //     })
-    // });
+        it('should delete the user\'s review', () => {
+            Users.deleteReview(reviewId)
+                .then(() => {
+                    expect(200);
+                })
+        })
+    });
 
     describe('GET /api/users', function () {
         let auth = {};
