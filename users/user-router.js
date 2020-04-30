@@ -99,7 +99,7 @@ router.get("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
         Users.findReviewById(reviewId)
         .then(review => {
             console.log("review", review, user)
-            res.status(201).json(user.review)
+            res.status(201).json(review.review)
         })
         .catch(error => {
             console.log(error);
