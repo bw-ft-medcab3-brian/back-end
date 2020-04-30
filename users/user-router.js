@@ -89,6 +89,27 @@ router.get("/:id/fav-reviews", validateUserId, (req, res) => {
             res.status(404).json({ message: "can not find reviews for user" });
         }
     })    
+});
+
+router.get("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
+    const id = req.params.id;
+    const reviewId = req.params.reviewid;
+    Users.findReview(id)
+    .then(user => {
+        Users.findReviewById(reviewId)
+        .then(review => {
+            console.log("review", review, user)
+            res.status(201).json(user.review)
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({ error })
+        })
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(404).json({ message: "review not found" })
+    })
 })
 
 router.post("/:id/fav-reviews", validateUserId, (req, res) => {

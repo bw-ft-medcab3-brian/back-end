@@ -8,7 +8,8 @@ module.exports = {
     addReview,
     findReview,
     updateReview,
-    deleteReview
+    deleteReview,
+    findReviewById
 };
 
 function find() {
@@ -30,6 +31,10 @@ function findReview(id) {
     .join("users", "users.id", "reviews.user_id")
     .select("reviews.*")
     .where("user_id", id);
+}
+
+function findReviewById(reviewId) {
+    return db("reviews").where({ reviewId }).first();
 }
 
 function addReview(review) {
