@@ -33,8 +33,8 @@ function findReview(id) {
     .where("user_id", id);
 }
 
-function findReviewById(reviewId) {
-    return db("reviews").where({ reviewId }).first();
+function findReviewById(id) {
+    return db("reviews").where({ id }).first();
 }
 
 function addReview(review) {
