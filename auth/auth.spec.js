@@ -11,7 +11,6 @@ describe('register route', () => {
             expect(process.env.NODE_ENV).toBe('staging');
         })
     })
-
     describe('POST /api/auth/register', () => {
         it('should add the created user', function () {
             request(server)

@@ -59,7 +59,7 @@ router.get("/", (req, res) => {
             console.log(users)
             res.json(users);
         })
-        .catch(err => res.status(404).json({err}));
+        .catch(err => res.status(404).json({ err }));
 });
 
 router.get("/all-strains", (req, res) => {
@@ -82,13 +82,13 @@ router.get("/:id/fav-reviews", validateUserId, (req, res) => {
     const { id } = req.params;
 
     Users.findReview(id)
-    .then(review => {
-        if (review.length) {
-            res.json(review)
-        } else {
-            res.status(404).json({ message: "can not find reviews for user" });
-        }
-    })    
+        .then(review => {
+            if (review.length) {
+                res.json(review)
+            } else {
+                res.status(404).json({ message: "can not find reviews for user" });
+            }
+        })
 });
 
 router.get("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
@@ -96,23 +96,23 @@ router.get("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
     const reviewId = req.params.reviewid;
     console.log('id', id, 'reviewid', reviewId)
     Users.findReview(id)
-    .then(review => {
-        if(review.length) {
-            Users.findReviewById(reviewId)
-            .then(rev => {
-                console.log(rev, reviewId)
-                res.status(200).json(rev)
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(404).json({ message: "review not found" })
-            })
-        }
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(500).json({ error })
-    })
+        .then(review => {
+            if (review.length) {
+                Users.findReviewById(reviewId)
+                    .then(rev => {
+                        console.log(rev, reviewId)
+                        res.status(200).json(rev)
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(404).json({ message: "review not found" })
+                    })
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({ error })
+        })
 })
 
 router.post("/:id/fav-reviews", validateUserId, (req, res) => {
@@ -121,23 +121,23 @@ router.post("/:id/fav-reviews", validateUserId, (req, res) => {
     const reviewId = req.params.reviewid;
     reviewData.user_id = id;
     console.log(reviewData);
-    
+
     Users.findById(id)
-    .then(user => {
-        Users.addReview(reviewData, id)
-        .then(review => {
-            console.log("review", review, user)
-            res.status(201).json(user.review)
+        .then(user => {
+            Users.addReview(reviewData, id)
+                .then(review => {
+                    console.log("review", review, user)
+                    res.status(201).json(user.review)
+                })
+                .catch(error => {
+                    console.log(error);
+                    res.status(500).json({ error })
+                })
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({error})
+            res.status(500).json({ message: "Failed to create new review" });
         })
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(500).json({ message: "Failed to create new review" });
-    })
 });
 
 router.put("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
@@ -147,25 +147,25 @@ router.put("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
     console.log('id', id, 'reviewId', reviewId);
 
     Users.findReview(id)
-    .then(review => {
-        if (review.length) {
-            Users.updateReview(changes, reviewId)
-            .then(updated => {
-                console.log('updated', updated)
-                res.status(200).json(updated.changes)
-            })
-            .catch(error => {
-                console.log(error);
-                res.status(500).json({ error: "failed to update post" })
-            })
-        } else {
-            res.status(404).json({ message: "Could not find reviews for given user" })
-        }
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(500).json({ message: "failed to retrieve reviews" });
-    })
+        .then(review => {
+            if (review.length) {
+                Users.updateReview(changes, reviewId)
+                    .then(updated => {
+                        console.log('updated', updated)
+                        res.status(200).json(updated.changes)
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        res.status(500).json({ error: "failed to update post" })
+                    })
+            } else {
+                res.status(404).json({ message: "Could not find reviews for given user" })
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({ message: "failed to retrieve reviews" });
+        })
 })
 
 router.delete("/:id/fav-reviews/:reviewid", validateUserId, (req, res) => {
@@ -198,13 +198,13 @@ function validateUserId(req, res, next) {
     const { id } = req.params;
 
     Users.findById(id)
-    .then(user => {
-        next()
-    })
-    .catch(error => {
-        console.log(error)
-        res.status(500).json({ error });
-    })
+        .then(user => {
+            next()
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(500).json({ error });
+        })
 }
 
 module.exports = router;
