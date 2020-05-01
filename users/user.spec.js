@@ -37,18 +37,34 @@ describe('users router', () => {
     });
 
     describe('insert()', function () {
-        // it('should add the created review', () => {
-        //     Users.addReview({
-        //         strain: "pineapple express",
-        //         stars: 3,
-        //         review: "not as good as the movie",
-        //         user_id: 1
-        //     });
+        let auth = {};
+        beforeAll((done) => {
 
-        //     const reviews = db('reviews');
-        //     expect(reviews).toBe(reviews + 1);
+            request(server)
+                .post('/api/auth/login')
+                .send({ email: "tester@email.com", password: "pass" })
+                .expect(200)
+                .end(onResponse);
 
-        // })
+            function onResponse(err, res) {
+                console.log(res.body.token);
+
+                auth.token = res.body.token;
+                return done();
+            }
+        })
+        it('should add the created review', () => {
+            Users.addReview({
+                strain: "pineapple express",
+                stars: 3,
+                review: "not as good as the movie"
+            });
+
+            const reviews = db('reviews');
+            console.log("reviews", reviews);
+            expect(201)
+
+        })
         it('should require authorization', function () {
 
             return request(server)
@@ -104,7 +120,6 @@ describe('users router', () => {
                 return done();
             }
         })
-
         it('should require authorization', function () {
 
             return request(server)
